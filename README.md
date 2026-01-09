@@ -23,6 +23,11 @@ I want just to import and use it with minor modifications. Here I made something
 - **Drop-in Replacement** - Works with all matplotlib plot types
 - **Auto Color Cycling** - Intelligent palette management with intensity control
 
+# Example Gallery
+
+<img src="img/showcase.png" alt="pltx visualization" width="600">
+
+
 ## Quick Start
 
 ```python
@@ -214,14 +219,20 @@ plt.savefig('figure1.pdf', dpi=300)
 4. **Use presets** to match your target medium
 5. **Combine features** for maximum effect
 
-## Examples Gallery
+## Testing
 
-See **12 test PDFs** in the project root demonstrating:
-- Progressive width comparison
-- Outline vs centerline effects
-- Nature journal style
-- Presentation style
-- All plot types (line, bar, scatter, histogram)
+The package includes a comprehensive test suite using `pytest`.
+
+```bash
+# Install test dependencies
+pip install pytest
+
+# Run all tests
+pytest tests
+```
+
+The test suite covers color palette logic, style initialization, enhanced plotting functions, and style context management.
+
 
 ---
 

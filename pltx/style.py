@@ -47,12 +47,14 @@ class PlotStyle:
         auto_apply : bool
             Whether to automatically apply global style settings
         vary_linewidth : bool
-            If True, automatically vary line widths for colorblind accessibility
+            If True, automatically vary line widths for colorblind
+            accessibility
             Each line gets progressively thicker
         base_linewidth : float
             Base line width when vary_linewidth is True
         linewidth_progression_factor : float
-            Factor for progressive width increase. Each line is multiplied by this factor.
+            Factor for progressive width increase. Each line is multiplied
+            by this factor.
             Examples: 1.2 (20% increase), 1.3 (30% increase), 1.5 (50% increase)
         """
         self.palette_name = palette_name
@@ -130,18 +132,50 @@ class PlotStyle:
         preset : str
             Style preset name ('nature', 'presentation', 'poster', etc.)
         **kwargs
-            Optional rcParams overrides
+            Optional rcParams overrides or PlotStyle attribute overrides
         """
-        # Save current rcParams (simplified approach: matplotlib rcParams are global)
-        # In a real implementation, we'd need to deep copy them, but for now we'll
-        # just apply the preset and rely on the user to know it's global for now
-        # OR better: save the ones we know we are changing.
-        # For simplicity and given the scope, we apply the preset.
+        # Save current rcParams
         old_params = plt.rcParams.copy()
+
+        # Save current PlotStyle attributes
+        style_attrs = [
+            "palette_name", "palette_size", "font_size_medium",
+            "font_size_large", "use_tex", "vary_linewidth",
+            "base_linewidth", "linewidth_progression_factor"
+        ]
+        old_style_values = {attr: getattr(self, attr) for attr in style_attrs}
+
+        # Separate PlotStyle attributes from rcParams
+        style_kwargs = {}
+        rc_kwargs = {}
+        for k, v in kwargs.items():
+            if k in style_attrs:
+                style_kwargs[k] = v
+            else:
+                rc_kwargs[k] = v
+
         try:
-            apply_style_preset(preset, **kwargs)
+            # Apply PlotStyle attribute changes
+            for k, v in style_kwargs.items():
+                setattr(self, k, v)
+
+            # If palette changed, re-initialize it
+            if "palette_name" in style_kwargs or "palette_size" in style_kwargs:
+                self.color_palette = ColorPalette(self.palette_name, self.palette_size)
+
+            # Apply rcParams preset and overrides
+            apply_style_preset(preset, **rc_kwargs)
             yield
         finally:
+            # Restore PlotStyle attributes
+            for k, v in old_style_values.items():
+                setattr(self, k, v)
+
+            # Re-initialize palette if it was changed
+            if "palette_name" in style_kwargs or "palette_size" in style_kwargs:
+                self.color_palette = ColorPalette(self.palette_name, self.palette_size)
+
+            # Restore rcParams
             plt.rcParams.update(old_params)
 
     def get_linewidth(self, idx: int, base_width: Optional[float] = None) -> float:
