@@ -23,7 +23,7 @@ I want just to import and use it with minor modifications. Here I made something
 - **Drop-in Replacement** - Works with all matplotlib plot types
 - **Auto Color Cycling** - Intelligent palette management with intensity control
 
-# Example Gallery
+## Example Gallery
 
 <img src="img/showcase.png" alt="pltx visualization" width="600">
 
