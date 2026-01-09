@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pltx"
+version = "0.1.0"
+authors = [
+  { name="Igor Sokolov", email="igor@example.com" },
+]
+description = "A matplotlib wrapper with custom styling and color palettes"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+]
+dependencies = [
+    "matplotlib>=3.5.0",
+    "numpy>=1.20.0",
+    "seaborn>=0.11.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/qex/pltx"
+"Bug Tracker" = "https://github.com/qex/pltx/issues"
+
+[tool.setuptools]
+packages = ["pltx"]
