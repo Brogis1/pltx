@@ -28,8 +28,8 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/qex/pltx"
-"Bug Tracker" = "https://github.com/qex/pltx/issues"
+"Homepage" = "https://github.com/isokolov/pltx"
+"Bug Tracker" = "https://github.com/isokolov/pltx/issues"
 
 [tool.setuptools]
 packages = ["pltx"]

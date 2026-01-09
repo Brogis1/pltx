@@ -37,14 +37,14 @@ Works with all matplotlib plot types: lines, bars, scatter, histograms, heatmaps
 
 ```python
 import sys
-sys.path.insert(0, '/path/to/qex_private')
+sys.path.insert(0, '/path/to/pltx')
 import pltx.pyplot as plt
 ```
 
 ### Option 2: Install as Package (Recommended)
 
 ```bash
-cd /path/to/qex_private/pltx
+cd /path/to/pltx
 pip install -e .
 ```
 
@@ -758,7 +758,7 @@ plt.legend()
 ```python
 # If you get "ModuleNotFoundError: No module named 'pltx'"
 import sys
-sys.path.insert(0, '/path/to/qex_private')
+sys.path.insert(0, '/path/to/pltx')
 import pltx.pyplot as plt
 ```
 
@@ -833,5 +833,5 @@ pltx/
 **Author:** Igor Sokolov
 **Version:** 0.1.0
 **Python:** 3.10+
-**License:** Part of the QEX (Quantum-Enhanced DFT) project
+**Author:** Igor Sokolov
 **Created:** 2026-01-09

@@ -8,7 +8,7 @@
 
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![License](https://img.shields.io/badge/license-QEX-green.svg)](LICENSE)
+<!-- [![License](https://img.shields.io/badge/license-APACHE-green.svg)](LICENSE) -->
 
 ---
 
@@ -54,11 +54,11 @@ plt.savefig('plot.pdf', dpi=300)
 ```python
 # Option 1: Direct import
 import sys
-sys.path.insert(0, '/path/to/qex_private')
+sys.path.insert(0, '/path/to/pltx')
 import pltx.pyplot as plt
 
 # Option 2: Install as package
-cd /path/to/qex_private/pltx
+cd /path/to/pltx
 pip install -e .
 ```
 
