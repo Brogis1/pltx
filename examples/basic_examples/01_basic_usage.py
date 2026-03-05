@@ -5,7 +5,12 @@ import os
 import numpy as np
 
 # Add parent directory to path to enable local package import
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+
+# Make sure we can import pltx from the repo root
+REPO_ROOT = os.path.abspath(os.path.join(os.getcwd(), '../..'))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
 import pltx.pyplot as plt
 
 # Generate data
@@ -17,7 +22,7 @@ y2 = np.cos(x)
 fig, ax = plt.subplots(figsize=(8, 5))
 
 # Use plot_styled for automatic pltx styling
-plt.plot_styled(x, y1, label='sin(x)', color_idx=0, linewidth=2)
+plt.plot_styled(x, y1, label='sin(x)', color_idx=0, linewidth=)
 plt.plot_styled(x, y2, label='cos(x)', color_idx=2, linewidth=2)
 
 # Setup axis with convenience function

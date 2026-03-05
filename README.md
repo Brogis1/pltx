@@ -16,7 +16,7 @@ I got bored to always create some custom formatting for my plots, run into revie
 I want just to import and use it with minor modifications. Here I made something one can install and have pretty looking plots ready to go (just some personal styling on top of matplotlib).
 
 
-Credits to Mathieu Garrigues for Pasqal colormap
+Credits to Mathieu Garrigues for Pasqal colormap.
 
 ## Key Features
 
@@ -39,7 +39,7 @@ import numpy as np
 
 # Enable colorblind-friendly progressive widths
 plt.initialize_style(
-    palette_name='viridis',
+    palette_name='pasqal',
     vary_linewidth=True,              # Lines get progressively thicker
     linewidth_progression_factor=1.3  # 30% increase per line
 )

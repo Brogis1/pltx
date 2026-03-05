@@ -66,10 +66,14 @@ class ColorPalette:
     def _create_palette(palette_name: str, palette_size: int) -> List[Color]:
         """Create color palette using seaborn if available, else matplotlib.
 
+        If seaborn is available but doesn't know the palette name (e.g. it is
+        a registered matplotlib colormap such as 'pasqal'), we fall back to
+        sampling the matplotlib colormap directly.
+
         Parameters
         ----------
         palette_name : str
-            Name of the color palette
+            Name of the color palette (seaborn palette or mpl colormap name)
         palette_size : int
             Number of colors
 
@@ -79,19 +83,27 @@ class ColorPalette:
             List of RGB tuples
         """
         if HAS_SEABORN:
-            return sns.color_palette(palette_name, palette_size)
-        else:
-            # Fallback to matplotlib colormaps
             try:
-                cmap = plt.get_cmap(palette_name)
-            except ValueError:
-                # If palette not found, use viridis as fallback
-                cmap = plt.get_cmap('viridis')
+                return sns.color_palette(palette_name, palette_size)
+            except (ValueError, KeyError):
+                # palette_name is not a seaborn palette — try it as an mpl
+                # colormap (e.g. a custom one registered via mpl.colormaps)
+                pass
 
-            # Sample colors from colormap
-            colors = [cmap(i / (palette_size - 1)) for i in range(palette_size)]
-            # Convert to RGB tuples (remove alpha channel)
-            return [(c[0], c[1], c[2]) for c in colors]
+        # Sample from matplotlib colormap
+        try:
+            cmap = plt.get_cmap(palette_name)
+        except (ValueError, KeyError):
+            # Last resort: fall back to viridis
+            cmap = plt.get_cmap('viridis')
+
+        # Sample colors evenly across the colormap
+        colors = [
+            cmap(i / max(palette_size - 1, 1))
+            for i in range(palette_size)
+        ]
+        # Convert to RGB tuples (drop alpha channel)
+        return [(c[0], c[1], c[2]) for c in colors]
 
     @property
     def palette(self) -> List[Color]:
@@ -118,7 +130,8 @@ class ColorPalette:
         """
         if idx < 0 or idx >= len(self._palette):
             raise IndexError(
-                f"Color index {idx} out of range for palette of size {len(self._palette)}"
+                f"Color index {idx} out of range "
+                f"for palette of size {len(self._palette)}"
             )
         return self._palette[idx]
 

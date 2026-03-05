@@ -60,6 +60,26 @@ from .rcparams import apply_rcparams, get_default_rcparams
 # Import pyplot interface (can be imported as: from pltx import pyplot)
 from . import pyplot
 
+# ── Auto-register Pasqal colormaps if available ────────────────────────────
+# The cmap/ directory lives at the repo root, one level above this package.
+import os as _os
+_cmap_module = _os.path.join(
+    _os.path.dirname(_os.path.abspath(__file__)),  # .../pltx/
+    "..",                                           # repo root
+    "cmap",
+    "register_cmap.py",
+)
+if _os.path.isfile(_cmap_module):
+    try:
+        import importlib.util as _ilu
+        _spec = _ilu.spec_from_file_location("cmap.register_cmap", _cmap_module)
+        _mod = _ilu.module_from_spec(_spec)
+        _spec.loader.exec_module(_mod)
+        _mod.register_pasqal_cmap()
+    except Exception:
+        pass  # Never break pltx import because of missing/broken cmap
+del _os, _cmap_module
+
 __all__ = [
     # Main classes
     "PlotStyle",
