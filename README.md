@@ -15,6 +15,9 @@
 I got bored to always create some custom formatting for my plots, run into reviewers asking for improving readability.
 I want just to import and use it with minor modifications. Here I made something one can install and have pretty looking plots ready to go (just some personal styling on top of matplotlib).
 
+
+Credits to Mathieu Garrigues for Pasqal colormap
+
 ## Key Features
 
 - **Colorblind Accessible** - Progressive line width variation distinguishes lines by thickness AND color
