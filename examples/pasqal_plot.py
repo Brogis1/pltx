@@ -18,4 +18,4 @@ for i in range(5):
 
 plt.setup_axis(xlabel='x', ylabel='y', grid=True)
 plt.legend()
-plt.savefig('plot.pdf', dpi=300)
+plt.savefig('plot.png', dpi=300)

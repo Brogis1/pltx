@@ -54,8 +54,17 @@ for i in range(5):
 
 plt.setup_axis(xlabel='x', ylabel='y', grid=True)
 plt.legend()
-plt.savefig('plot.pdf', dpi=300)
+plt.savefig('plot.png', dpi=300)
 ```
+
+<img src="img/plot.png" alt="pltx visualization" width="600">
+
+Some other examples of the colormaps for which you can use `examples/generate_readme_images.py` script.
+
+<img src="img/pasqal_heatmaps.png" alt="pltx visualization" width="600">
+<img src="img/pasqal_swatches.png" alt="pltx visualization" width="600">
+<img src="img/pasqal_sine_cosine.png" alt="pltx visualization" width="600">
+
 
 ## Installation
 
