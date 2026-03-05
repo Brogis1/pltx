@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "matplotlibx"
-version = "0.1.0"
+version = "0.1.1"
 authors = [
   { name="Igor Sokolov", email="sokolov.igor.ch@gmail.com" },
 ]
@@ -31,8 +31,8 @@ dependencies = [
 all = ["seaborn>=0.11.0"]
 
 [project.urls]
-"Homepage" = "https://github.com/isokolov/pltx"
-"Bug Tracker" = "https://github.com/isokolov/pltx/issues"
+"Homepage" = "https://github.com/Brogis1/pltx"
+"Bug Tracker" = "https://github.com/Brogis1/pltx/issues"
 
 [tool.setuptools]
 packages = ["pltx"]

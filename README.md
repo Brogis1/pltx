@@ -3,7 +3,7 @@
 **A matplotlib wrapper with publication-quality styling and colorblind accessibility features.**
 
 
-<img src="img/pltx.png" alt="pltx visualization" width="400">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pltx.png" alt="pltx visualization" width="400">
 
 
 
@@ -13,7 +13,8 @@
 ---
 
 I got bored to always create some custom formatting for my plots, run into reviewers asking for improving readability.
-I want just to import and use it with minor modifications. Here I made something one can install and have pretty looking plots ready to go (just some personal styling on top of matplotlib).
+I want just to import and use it with minor modifications.
+Here I made something one can install and have pretty looking plots ready to go (just some personal styling on top of matplotlib).
 
 
 Credits to Mathieu Garrigues for Pasqal colormap.
@@ -28,7 +29,7 @@ Credits to Mathieu Garrigues for Pasqal colormap.
 
 ## Example Gallery
 
-<img src="img/showcase.png" alt="pltx visualization" width="600">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/showcase.png" alt="pltx visualization" width="600">
 
 
 ## Quick Start
@@ -57,13 +58,13 @@ plt.legend()
 plt.savefig('plot.png', dpi=300)
 ```
 
-<img src="img/plot.png" alt="pltx visualization" width="600">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/plot.png" alt="pltx visualization" width="600">
 
 Some other examples of the colormaps for which you can use `examples/generate_readme_images.py` script.
 
-<img src="img/pasqal_heatmaps.png" alt="pltx visualization" width="600">
-<img src="img/pasqal_swatches.png" alt="pltx visualization" width="600">
-<img src="img/pasqal_sine_cosine.png" alt="pltx visualization" width="600">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_heatmaps.png" alt="pltx visualization" width="600">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_swatches.png" alt="pltx visualization" width="600">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_sine_cosine.png" alt="pltx visualization" width="600">
 
 
 ## Installation
