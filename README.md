@@ -68,15 +68,11 @@ Some other examples of the colormaps for which you can use `examples/generate_re
 
 ## Installation
 
-```python
-# Option 1: Direct import
-import sys
-sys.path.insert(0, '/path/to/pltx')
-import pltx.pyplot as plt
+```bash
+pip install matplotlibx
 
-# Option 2: Install as package
-cd /path/to/pltx
-pip install -e .
+# With optional seaborn support for extended palettes
+pip install matplotlibx[all]
 ```
 
 ## Key Features in Detail
