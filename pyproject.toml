@@ -35,4 +35,7 @@ all = ["seaborn>=0.11.0"]
 "Bug Tracker" = "https://github.com/Brogis1/pltx/issues"
 
 [tool.setuptools]
-packages = ["pltx"]
+packages = ["pltx", "pltx.cmap"]
+
+[tool.setuptools.package-data]
+"pltx.cmap" = ["*.npy"]

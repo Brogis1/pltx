@@ -172,7 +172,7 @@ def plot_styled(
     color_idx: Optional[int] = None,
     color_intensity: Optional[float] = None,
     linestyle: str = "-",
-    linewidth: float = 2,
+    linewidth: Optional[float] = None,
     marker: Optional[str] = None,
     markersize: Optional[float] = None,
     alpha: Optional[float] = None,
@@ -200,7 +200,8 @@ def plot_styled(
     color_intensity : float, optional
         Color intensity adjustment (0.0-1.0)
     linestyle, linewidth, marker, markersize :
-        Line and marker style parameters
+        Line and marker style parameters. If linewidth is None,
+        uses the base linewidth configured via initialize_style().
     alpha : float, optional
         Transparency
     outline : bool
@@ -304,7 +305,7 @@ def errorbar_styled(
     label: Optional[str] = None,
     color: Optional[Union[str, tuple]] = None,
     color_idx: Optional[int] = None,
-    linewidth: float = 2,
+    linewidth: Optional[float] = None,
     capsize: float = 3,
     fmt: str = "o",
     ax=None,
@@ -324,8 +325,9 @@ def errorbar_styled(
         Plot color
     color_idx : int, optional
         Index into color palette
-    linewidth : float
-        Line width
+    linewidth : float, optional
+        Line width. If None, uses the base linewidth configured
+        via initialize_style().
     capsize : float
         Cap size for error bars
     fmt : str

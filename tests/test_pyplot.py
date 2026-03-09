@@ -22,6 +22,16 @@ def test_plot_styled():
     assert len(ax.get_lines()) == 2
     plt.close('all')
 
+def test_initialize_style_base_linewidth_applies_to_plot_styled():
+    pltx_plt.initialize_style(vary_linewidth=True, base_linewidth=4.0)
+    x = np.linspace(0, 10, 100)
+    y = np.sin(x)
+
+    line = pltx_plt.plot_styled(x, y, color_idx=0)
+
+    assert pytest.approx(line.get_linewidth()) == 4.0
+    plt.close('all')
+
 def test_scatter_styled():
     pltx_plt.initialize_style()
     x = np.random.rand(10)

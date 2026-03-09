@@ -1,8 +1,8 @@
 """Example 02: Using the Pasqal color palettes with pltx.
 
-pltx automatically registers the 'pasqal' and 'pasqal_contrast' colormaps
-at import time (via cmap/register_cmap.py), so they can be used directly
-as palette names in initialize_style().
+pltx automatically registers the 'pasqal', 'pasqal_contrast', and
+'pasqal_diverging' colormaps at import time, so they can be used
+directly as palette names in initialize_style().
 """
 
 import numpy as np
@@ -11,10 +11,10 @@ import pltx.pyplot as plt
 # Generate data
 x = np.linspace(0, 10, 100)
 
-fig, axs = plt.subplots(2, 2, figsize=(10, 8))
+fig, axs = plt.subplots(1, 3, figsize=(15, 4))
 
 # Pasqal palettes -- registered automatically when pltx is imported
-palettes = ['pasqal', 'pasqal_contrast']
+palettes = ['pasqal', 'pasqal_contrast', 'pasqal_diverging']
 
 for ax, palette in zip(axs.flat, palettes):
     # Temporarily change palette for this subplot

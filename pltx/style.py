@@ -382,7 +382,7 @@ class PlotStyle:
         color_idx: Optional[int] = None,
         color_intensity: Optional[float] = None,
         linestyle: str = "-",
-        linewidth: float = 2,
+        linewidth: Optional[float] = None,
         marker: Optional[str] = None,
         markersize: Optional[float] = None,
         alpha: Optional[float] = None,
@@ -412,6 +412,7 @@ class PlotStyle:
             Intensity factor (0.0-1.0). Lower values make colors lighter.
         linestyle, linewidth, marker, markersize :
             Line and marker style parameters
+            If linewidth is None, uses the style's configured base linewidth.
         alpha : float, optional
             Transparency
         outline : bool
@@ -447,8 +448,10 @@ class PlotStyle:
                 color = ColorPalette.adjust_intensity(color, color_intensity)
 
         # Vary line width for colorblind accessibility
-        if self.vary_linewidth and color_idx is not None:
+        if color_idx is not None:
             linewidth = self.get_linewidth(color_idx, linewidth)
+        elif linewidth is None:
+            linewidth = self.base_linewidth
 
         # Layer 1: Plot outline first (if requested) - appears behind everything
         if outline:
@@ -577,7 +580,7 @@ class PlotStyle:
         label: Optional[str] = None,
         color: Optional[Union[str, Color]] = None,
         color_idx: Optional[int] = None,
-        linewidth: float = 2,
+        linewidth: Optional[float] = None,
         capsize: float = 3,
         fmt: str = "o",
         **kwargs,
@@ -598,8 +601,8 @@ class PlotStyle:
             Plot color
         color_idx : int, optional
             Index into the palette
-        linewidth : float
-            Line width
+        linewidth : float, optional
+            Line width. If None, uses the style's configured base linewidth.
         capsize : float
             Cap size for error bars
         fmt : str
@@ -615,9 +618,10 @@ class PlotStyle:
         if color is None and color_idx is not None:
             color = self.cycle_color(color_idx)
 
-        # Vary line width for colorblind accessibility
-        if self.vary_linewidth and color_idx is not None:
+        if color_idx is not None:
             linewidth = self.get_linewidth(color_idx, linewidth)
+        elif linewidth is None:
+            linewidth = self.base_linewidth
 
         return ax.errorbar(
             x,

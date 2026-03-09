@@ -34,6 +34,15 @@ Credits to Mathieu Garrigues for Pasqal colormap.
 
 ## Quick Start
 
+For a new user, the fastest path is:
+
+```python
+import pltx.pyplot as plt
+plt.initialize_style()
+```
+
+Then use `plt.plot_styled(...)` (or regular matplotlib calls) and your figures get consistent defaults immediately.
+
 ```python
 import pltx.pyplot as plt
 import numpy as np
@@ -164,6 +173,7 @@ plt.savefig('figure1.pdf', dpi=300)
 
 - **[FULL_DOCUMENTATION.md](FULL_DOCUMENTATION.md)** - Complete API reference and detailed guide
 - **[examples/](examples/)** - Working examples (demo.py, showcase.py, simple_example.py)
+- **[notebooks/new_user_mpl_vs_matplotlibx.ipynb](notebooks/new_user_mpl_vs_matplotlibx.ipynb)** - Side-by-side default matplotlib vs matplotlibx
 - 12 test PDFs demonstrating all features
 
 ## Quick Reference

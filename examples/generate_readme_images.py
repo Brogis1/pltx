@@ -10,7 +10,7 @@ if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
 import pltx.pyplot as plt
-from cmap.register_cmap import register_pasqal_cmap
+from pltx.cmap import register_pasqal_cmap
 
 def generate_images():
     # Register the colormaps
