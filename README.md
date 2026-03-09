@@ -17,12 +17,12 @@ I want just to import and use it with minor modifications.
 Here I made something one can install and have pretty looking plots ready to go (just some personal styling on top of matplotlib).
 
 
-Credits to Mathieu Garrigues for Pasqal colormap.
+Credits to Mathieu Garrigues for Pasqal colormaps (`pasqal`, `pasqal_contrast`, `pasqal_diverging`).
 
 ## Key Features
 
 - **Colorblind Accessible** - Progressive line width variation distinguishes lines by thickness AND color
-- **Journal-Ready Presets** - Nature, presentation, and poster styles in one function call
+- **Journal-Ready Presets** - Nature, LaTeX, presentation, and poster styles in one function call
 - **Line Visibility** - Optional outlines and centerlines for better contrast
 - **Drop-in Replacement** - Works with all matplotlib plot types
 - **Auto Color Cycling** - Intelligent palette management with intensity control
@@ -69,11 +69,27 @@ plt.savefig('plot.png', dpi=300)
 
 <img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/plot.png" alt="pltx visualization" width="600">
 
-Some other examples of the colormaps for which you can use `examples/generate_readme_images.py` script.
+### Pasqal Colormaps
 
-<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_heatmaps.png" alt="pltx visualization" width="600">
-<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_swatches.png" alt="pltx visualization" width="600">
-<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_sine_cosine.png" alt="pltx visualization" width="600">
+Three custom Pasqal colormaps are **auto-registered** on import — no setup needed:
+
+- `pasqal` — main brand colourmap (dark teal to bright green)
+- `pasqal_contrast` — higher-contrast variant (purple to cyan)
+- `pasqal_diverging` — diverging colourmap (blue-purple through white to teal-green)
+
+```python
+# Use as palette for line plots
+plt.initialize_style(palette_name='pasqal')
+
+# Or use directly with any matplotlib function
+ax.imshow(data, cmap='pasqal_diverging')
+```
+
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_swatches.png" alt="Pasqal colormap swatches" width="600">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_heatmaps.png" alt="Pasqal heatmap comparison" width="600">
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/pasqal_sine_cosine.png" alt="Pasqal colormaps on sine/cosine plots" width="600">
+
+Regenerate these images with `python examples/generate_readme_images.py`.
 
 
 ## Installation
@@ -120,6 +136,7 @@ plt.plot_styled(x, y, color_idx=0, outline=True, centerline=True)
 from pltx.rcparams import apply_style_preset
 
 apply_style_preset('nature')        # Nature journal (Arial, 7-9pt, 3.5")
+apply_style_preset('latex')         # LaTeX documents (Computer Modern, 10pt, usetex)
 apply_style_preset('presentation')  # Slides (16-18pt, thick lines)
 apply_style_preset('poster')        # Posters (24-28pt)
 ```
@@ -139,7 +156,7 @@ plt.plot_styled(x, y, marker='o', linestyle='', color_idx=0)
 # All matplotlib functions available!
 ```
 
-## Real-World Example
+## Real-World Examples
 
 ### Nature Journal Submission
 
@@ -169,12 +186,39 @@ plt.legend()
 plt.savefig('figure1.pdf', dpi=300)
 ```
 
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/example_nature.png" alt="Nature preset example" width="400">
+
+### LaTeX Document Figure
+
+```python
+from pltx.rcparams import apply_style_preset
+import pltx.pyplot as plt
+import numpy as np
+
+# Computer Modern fonts, usetex=True, amsmath loaded
+apply_style_preset('latex')
+
+fig, ax = plt.subplots()  # 5.5" x 3.4" (golden ratio)
+
+x = np.linspace(0, 2 * np.pi, 200)
+plt.plot_styled(x, np.sin(x), label=r'$\sin(x)$', ax=ax)
+plt.plot_styled(x, np.cos(x), label=r'$\cos(x)$', ax=ax)
+
+plt.setup_axis(ax, xlabel=r'$x$ [rad]', ylabel=r'$f(x)$',
+               title=r'Trigonometric Functions')
+ax.legend()
+plt.savefig('figure.pdf')  # 300 DPI PDF, ready for \includegraphics
+```
+
+<img src="https://raw.githubusercontent.com/Brogis1/pltx/main/img/example_latex.png" alt="LaTeX preset example" width="500">
+
 ## Documentation
 
 - **[FULL_DOCUMENTATION.md](FULL_DOCUMENTATION.md)** - Complete API reference and detailed guide
 - **[examples/](examples/)** - Working examples (demo.py, showcase.py, simple_example.py)
 - **[notebooks/new_user_mpl_vs_matplotlibx.ipynb](notebooks/new_user_mpl_vs_matplotlibx.ipynb)** - Side-by-side default matplotlib vs matplotlibx
-- 12 test PDFs demonstrating all features
+- **[notebooks/showcase_pasqal.ipynb](notebooks/showcase_pasqal.ipynb)** - Pasqal colormaps demo (heatmaps, swatches, line plots)
+- **[notebooks/showcase_latex.ipynb](notebooks/showcase_latex.ipynb)** - LaTeX preset demo (Computer Modern, math labels, multi-panel)
 
 ## Quick Reference
 
@@ -184,6 +228,8 @@ plt.savefig('figure1.pdf', dpi=300)
 | Outline | `outline=True` |
 | Centerline | `centerline=True` |
 | Nature style | `apply_style_preset('nature')` |
+| LaTeX style | `apply_style_preset('latex')` |
+| Pasqal colormaps | `palette_name='pasqal'` / `'pasqal_contrast'` / `'pasqal_diverging'` |
 | Color cycling | `color_idx=i` |
 | Axis setup | `setup_axis(xlabel=..., ylabel=...)` |
 
@@ -208,7 +254,8 @@ plt.savefig('figure1.pdf', dpi=300)
 
 | Preset | Fonts | Figure Size | Use Case |
 |--------|-------|-------------|----------|
-| nature | 7-9pt | 3.5"x2.6" | Nature journal |
+| nature | Arial 7-9pt | 3.5"x2.6" | Nature journal |
+| latex | Computer Modern 9-11pt | 5.5"x3.4" | LaTeX documents (usetex) |
 | presentation | 16-18pt | 10"x6" | Slides |
 | poster | 24-28pt | 12"x8" | Posters |
 | default | 12-13pt | 6"x4" | General |
@@ -255,7 +302,7 @@ The test suite covers color palette logic, style initialization, enhanced plotti
 
 ---
 
-**Version:** 0.1.0
+**Version:** 0.1.2
 **Python:** 3.10+
 **Created:** 2026-01-09
 **Author:** Igor Sokolov

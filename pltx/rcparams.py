@@ -26,7 +26,13 @@ NATURE_LARGE_FONT_SIZE = 9
 NATURE_FIGURE_WIDTH = 3.5  # inches (single column)
 NATURE_FIGURE_WIDTH_DOUBLE = 7.0  # inches (double column)
 
-StylePreset = Literal["default", "nature", "presentation", "poster"]
+# LaTeX document style settings
+LATEX_FONT_SIZE = 10
+LATEX_SMALL_FONT_SIZE = 9
+LATEX_LARGE_FONT_SIZE = 11
+LATEX_FIGURE_WIDTH = 5.5  # inches (standard \textwidth for article class)
+
+StylePreset = Literal["default", "nature", "latex", "presentation", "poster"]
 
 
 def get_default_rcparams(
@@ -191,6 +197,94 @@ def get_nature_rcparams(**kwargs) -> Dict[str, Any]:
     return params
 
 
+def get_latex_rcparams(**kwargs) -> Dict[str, Any]:
+    """Get LaTeX document style rcParams.
+
+    Designed for figures embedded in LaTeX documents (articles, theses,
+    reports). Uses Computer Modern fonts via ``text.usetex = True`` so
+    figure text matches the surrounding LaTeX document.
+
+    Requirements:
+    - A working LaTeX installation (pdflatex + cm-super or lmodern)
+    - Font size 9-11 pt to match typical ``\\normalsize`` in article class
+    - Standard textwidth ~5.5 inches (single column article class)
+
+    Parameters
+    ----------
+    **kwargs
+        Additional rcParams to override
+
+    Returns
+    -------
+    Dict[str, Any]
+        Dictionary of rcParams optimized for LaTeX documents
+    """
+    params = {
+        # Font settings - Computer Modern via LaTeX
+        "font.size": LATEX_FONT_SIZE,
+        "font.family": "serif",
+        "font.serif": ["Computer Modern Roman", "cmr10", "DejaVu Serif"],
+        "axes.titlesize": LATEX_LARGE_FONT_SIZE,
+        "axes.labelsize": LATEX_FONT_SIZE,
+        "xtick.labelsize": LATEX_SMALL_FONT_SIZE,
+        "ytick.labelsize": LATEX_SMALL_FONT_SIZE,
+        "legend.fontsize": LATEX_SMALL_FONT_SIZE,
+        "figure.titlesize": LATEX_LARGE_FONT_SIZE,
+        "text.usetex": True,
+        "text.latex.preamble": r"\usepackage{amsmath}\usepackage{amssymb}",
+        "axes.formatter.use_mathtext": True,
+        # Figure settings - standard article class textwidth
+        "figure.dpi": 150,
+        "figure.figsize": (LATEX_FIGURE_WIDTH, LATEX_FIGURE_WIDTH * 0.618),
+        "savefig.dpi": 300,
+        "savefig.bbox": "tight",
+        "savefig.format": "pdf",
+        "savefig.transparent": False,
+        # Line settings
+        "lines.linewidth": 1.5,
+        "lines.markersize": 5,
+        # Tick settings
+        "xtick.direction": "in",
+        "ytick.direction": "in",
+        "xtick.major.size": 4,
+        "ytick.major.size": 4,
+        "xtick.minor.size": 2.5,
+        "ytick.minor.size": 2.5,
+        "xtick.major.width": 0.6,
+        "ytick.major.width": 0.6,
+        "xtick.minor.width": 0.4,
+        "ytick.minor.width": 0.4,
+        "xtick.top": True,
+        "ytick.right": True,
+        # Grid settings
+        "grid.alpha": 0.3,
+        "grid.linestyle": "--",
+        "grid.linewidth": 0.5,
+        # Legend settings
+        "legend.framealpha": 1.0,
+        "legend.frameon": True,
+        "legend.fancybox": False,
+        "legend.edgecolor": "black",
+        "legend.borderpad": 0.4,
+        "legend.labelspacing": 0.3,
+        # Axes settings
+        "axes.grid": False,
+        "axes.axisbelow": True,
+        "axes.linewidth": 0.6,
+        "axes.edgecolor": "black",
+        "axes.labelcolor": "black",
+        "axes.labelpad": 3.0,
+        # Image settings
+        "image.cmap": "viridis",
+        "image.interpolation": "nearest",
+    }
+
+    # Update with any custom parameters
+    params.update(kwargs)
+
+    return params
+
+
 def get_presentation_rcparams(**kwargs) -> Dict[str, Any]:
     """Get presentation style rcParams (large fonts, thick lines).
 
@@ -292,7 +386,7 @@ def apply_style_preset(preset: StylePreset = "default", **kwargs) -> None:
 
     Parameters
     ----------
-    preset : {'default', 'nature', 'presentation', 'poster'}
+    preset : {'default', 'nature', 'latex', 'presentation', 'poster'}
         Style preset to apply
     **kwargs
         Additional rcParams to override
@@ -300,6 +394,7 @@ def apply_style_preset(preset: StylePreset = "default", **kwargs) -> None:
     Examples
     --------
     >>> apply_style_preset('nature')
+    >>> apply_style_preset('latex')
     >>> apply_style_preset('presentation', font_size_medium=18)
     """
     import matplotlib.pyplot as plt
@@ -308,6 +403,8 @@ def apply_style_preset(preset: StylePreset = "default", **kwargs) -> None:
         params = get_default_rcparams(**kwargs)
     elif preset == "nature":
         params = get_nature_rcparams(**kwargs)
+    elif preset == "latex":
+        params = get_latex_rcparams(**kwargs)
     elif preset == "presentation":
         params = get_presentation_rcparams(**kwargs)
     elif preset == "poster":
@@ -315,7 +412,7 @@ def apply_style_preset(preset: StylePreset = "default", **kwargs) -> None:
     else:
         raise ValueError(
             f"Unknown preset '{preset}'. "
-            f"Choose from: 'default', 'nature', 'presentation', 'poster'"
+            f"Choose from: 'default', 'nature', 'latex', 'presentation', 'poster'"
         )
 
     for key, value in params.items():

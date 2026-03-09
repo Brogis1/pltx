@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from pltx.rcparams import (
     get_default_rcparams,
     get_nature_rcparams,
+    get_latex_rcparams,
     get_presentation_rcparams,
     get_poster_rcparams,
     apply_style_preset
@@ -18,6 +19,14 @@ def test_get_nature_rcparams():
     assert params["font.size"] == 8
     assert params["figure.figsize"][0] == 3.5
     assert params["lines.linewidth"] == 1.0
+
+def test_get_latex_rcparams():
+    params = get_latex_rcparams()
+    assert params["font.size"] == 10
+    assert params["font.family"] == "serif"
+    assert params["text.usetex"] is True
+    assert params["figure.figsize"][0] == 5.5
+    assert params["lines.linewidth"] == 1.5
 
 def test_get_presentation_rcparams():
     params = get_presentation_rcparams()
