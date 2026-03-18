@@ -35,10 +35,61 @@ LATEX_FIGURE_WIDTH = 5.5  # inches (standard \textwidth for article class)
 StylePreset = Literal["default", "nature", "latex", "presentation", "poster"]
 
 
+def _palette_to_cycler(palette_name: str, n: int = 10):
+    """Return a matplotlib cycler built from a named palette.
+
+    Works with seaborn palettes, matplotlib colormaps, and custom
+    colormaps registered via pltx (e.g. 'pasqal').
+
+    Parameters
+    ----------
+    palette_name : str
+        Name of the palette / colormap.
+    n : int
+        Number of colors to sample.
+
+    Returns
+    -------
+    cycler.Cycler
+        A color cycler ready for use as ``axes.prop_cycle``.
+    """
+    from cycler import cycler
+    import matplotlib.pyplot as plt
+
+    try:
+        import seaborn as sns
+        colors = sns.color_palette(palette_name, n)
+        # Convert to hex strings for clean rcParams storage
+        hex_colors = [
+            "#{:02x}{:02x}{:02x}".format(
+                int(r * 255), int(g * 255), int(b * 255)
+            )
+            for r, g, b in colors
+        ]
+    except Exception:
+        # Fall back to sampling a matplotlib colormap
+        try:
+            cmap = plt.get_cmap(palette_name)
+        except (ValueError, KeyError):
+            cmap = plt.get_cmap("viridis")
+        hex_colors = []
+        for i in range(n):
+            r, g, b, _ = cmap(i / max(n - 1, 1))
+            hex_colors.append(
+                "#{:02x}{:02x}{:02x}".format(
+                    int(r * 255), int(g * 255), int(b * 255)
+                )
+            )
+
+    return cycler("color", hex_colors)
+
+
 def get_default_rcparams(
     font_size_medium: int = FONT_SIZE_MEDIUM,
     font_size_large: int = FONT_SIZE_LARGE,
     use_tex: bool = False,
+    palette: str = AXES_PROP_CYCLE_PALETTE,
+    n_colors: int = AXES_PROP_CYCLE_SIZE,
     **kwargs,
 ) -> Dict[str, Any]:
     """Get default matplotlib rcParams for pltx.
@@ -51,6 +102,10 @@ def get_default_rcparams(
         Font size for titles
     use_tex : bool
         Whether to use LaTeX rendering
+    palette : str
+        Color palette / colormap name for ``axes.prop_cycle``
+    n_colors : int
+        Number of colors to sample from the palette
     **kwargs
         Additional rcParams to override
 
@@ -60,6 +115,8 @@ def get_default_rcparams(
         Dictionary of rcParams
     """
     params = {
+        # Color cycle
+        "axes.prop_cycle": _palette_to_cycler(palette, n_colors),
         # Font settings
         "font.size": font_size_medium,
         "font.family": "sans-serif",
@@ -353,6 +410,8 @@ def apply_rcparams(
     font_size_medium: int = FONT_SIZE_MEDIUM,
     font_size_large: int = FONT_SIZE_LARGE,
     use_tex: bool = False,
+    palette: str = AXES_PROP_CYCLE_PALETTE,
+    n_colors: int = AXES_PROP_CYCLE_SIZE,
     **kwargs,
 ) -> None:
     """Apply default rcParams to matplotlib.
@@ -365,6 +424,10 @@ def apply_rcparams(
         Font size for titles
     use_tex : bool
         Whether to use LaTeX rendering
+    palette : str
+        Color palette / colormap name for ``axes.prop_cycle``
+    n_colors : int
+        Number of colors to sample from the palette
     **kwargs
         Additional rcParams to override
     """
@@ -374,6 +437,8 @@ def apply_rcparams(
         font_size_medium=font_size_medium,
         font_size_large=font_size_large,
         use_tex=use_tex,
+        palette=palette,
+        n_colors=n_colors,
         **kwargs,
     )
 
@@ -412,7 +477,8 @@ def apply_style_preset(preset: StylePreset = "default", **kwargs) -> None:
     else:
         raise ValueError(
             f"Unknown preset '{preset}'. "
-            f"Choose from: 'default', 'nature', 'latex', 'presentation', 'poster'"
+            "Choose from: 'default', 'nature', 'latex', "
+            "'presentation', 'poster'"
         )
 
     for key, value in params.items():
